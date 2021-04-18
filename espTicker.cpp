@@ -1,4 +1,4 @@
-/* Ticker library code is placed under the MIT license
+/* espTicker library code is placed under the MIT license
  * Copyright (c) 2018 Stefan Staub
  *
  * Permission is hereby granted, free of charge, to any person obtaining
@@ -22,9 +22,9 @@
  * SOFTWARE.
  */
 
-#include "Ticker.h"
+#include "espTicker.h"
 
-Ticker::Ticker(fptr callback, uint32_t timer, uint32_t repeat, resolution_t resolution) {
+espTicker::espTicker(fptr callback, uint32_t timer, uint32_t repeat, resolution_t resolution) {
 	this->resolution = resolution;
 	if (resolution == MICROS) timer = timer * 1000;
 	this->timer = timer;
@@ -35,9 +35,9 @@ Ticker::Ticker(fptr callback, uint32_t timer, uint32_t repeat, resolution_t reso
 	counts = 0;
 	}
 
-Ticker::~Ticker() {}
+espTicker::~espTicker() {}
 
-void Ticker::start() {
+void espTicker::start() {
 	if (callback == NULL) return;
 	if (resolution == MILLIS) lastTime = millis();
 	else lastTime = micros();
@@ -46,7 +46,7 @@ void Ticker::start() {
 	status = RUNNING;
 	}
 
-void Ticker::resume() {
+void espTicker::resume() {
 	if (callback == NULL) return;
 	if (resolution == MILLIS) lastTime = millis() - diffTime;
 	else lastTime = micros() - diffTime;
@@ -55,24 +55,24 @@ void Ticker::resume() {
 	status = RUNNING;
 	}
 
-void Ticker::stop() {
+void espTicker::stop() {
 	enabled = false;
 	counts = 0;
 	status = STOPPED;
 	}
 
-void Ticker::pause() {
+void espTicker::pause() {
 	if (resolution == MILLIS) diffTime = millis() - lastTime;
 	else diffTime = micros() - lastTime;
 	enabled = false;
 	status = PAUSED;
 	}
 
-void Ticker::update() {
+void espTicker::update() {
 	if (tick()) callback();
 	}
 
-bool Ticker::tick() {
+bool espTicker::tick() {
 	if (!enabled)	return false;	
 	uint32_t currentTime = (resolution == MILLIS) ? millis() : micros();
  	if ((currentTime - lastTime) >= timer) {
@@ -87,32 +87,32 @@ bool Ticker::tick() {
 	return false;
 	}
 
-void Ticker::interval(uint32_t timer) {
+void espTicker::interval(uint32_t timer) {
 	if (resolution == MICROS) timer *= 1000;
 	this->timer = timer;
 	}
 
-uint32_t Ticker::interval() {
+uint32_t espTicker::interval() {
 	if (resolution == MILLIS) return timer / 1000;
 	else return timer;
 	}
 
-uint32_t Ticker::elapsed() {
+uint32_t espTicker::elapsed() {
 	if (resolution == MILLIS) return millis() - lastTime;
 	else return micros() - lastTime;
 	}
 
-uint32_t Ticker::remaining() {
+uint32_t espTicker::remaining() {
 	if (resolution == MILLIS) {
 		return timer / 1000 - elapsed();
 		}
 	else return timer - elapsed();
 	}
 
-status_t Ticker::state() {
+status_t espTicker::state() {
 	return status;
 	}
 
-uint32_t Ticker::counter() {
+uint32_t espTicker::counter() {
 	return counts;
 	}

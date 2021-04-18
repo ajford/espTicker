@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-#ifndef TICKER_H
-#define TICKER_H
+#ifndef ESPTICKER_H
+#define ESPTICKER_H
 
 #include "Arduino.h"
 
-/** Ticker internal resolution
+/** espTicker internal resolution
  *
  * @param MICROS default, the resoöution is in micro seconds, max is 70 minutes, the real resoltuion is 4 microseconds at 16MHz CPU cycle
  * @param MILLIS set the resolution to millis, for longer cycles over 70 minutes
@@ -59,7 +59,7 @@ typedef void (*fptr)();
 #endif
 
 
-class Ticker {
+class espTicker {
 
 public:
 
@@ -71,12 +71,12 @@ public:
 	 * @param resolution default MICROS for tickers under 70min, use MILLIS for tickers over 70 min
 	 *
 	 */
-	Ticker(fptr callback, uint32_t timer, uint32_t repeat = 0, resolution_t resolution = MICROS);
+	espTicker(fptr callback, uint32_t timer, uint32_t repeat = 0, resolution_t resolution = MICROS);
 
 	/** destructor for the Ticker object
 	 *
 	 */
-	~Ticker();
+	~espTicker();
 
 	/** start the ticker
 	 *
