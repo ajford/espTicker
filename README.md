@@ -1,6 +1,6 @@
-# Arduino Ticker Library v4.x.x
+# Arduino espTicker Library v4.x.x
 
-The **Arduino Ticker Library** allows you to create easily Ticker callbacks, which can call a function in a predetermined interval. You can change the number of repeats of the callbacks, if repeats is 0 the ticker runs in endless mode. Works like a "thread", where a secondary function will run when necessary. The library use no interupts of the hardware timers and works with the **micros() / millis()** function. You are not (really) limited in the number of Tickers.
+The **Arduino espTicker Library** allows you to create easily espTicker callbacks, which can call a function in a predetermined interval. You can change the number of repeats of the callbacks, if repeats is 0 the ticker runs in endless mode. Works like a "thread", where a secondary function will run when necessary. The library use no interupts of the hardware timers and works with the **micros() / millis()** function. You are not (really) limited in the number of espTickers.
 
 ## New in v4.0
 - added get interval function
@@ -19,7 +19,7 @@ The **Arduino Ticker Library** allows you to create easily Ticker callbacks, whi
 ## New in v2.1
 - You can change the interval time to microseconds.
 ```cpp
-Ticker tickerObject(callbackFunction, 100, 0, MICROS_MICROS) // interval is now 100us
+espTicker tickerObject(callbackFunction, 100, 0, MICROS_MICROS) // interval is now 100us
 ```
 - smaller improvments
 
@@ -27,14 +27,14 @@ Ticker tickerObject(callbackFunction, 100, 0, MICROS_MICROS) // interval is now 
 - You can determine the number of repeats, instead of modes.
 - The internal resolution is now **micros()**, this works with intervals up to 70 minutes. For longer intervals you can change the resolution to **millis()**.
 ```cpp
-Ticker tickerObject(callbackFunction, 1000, 0, MILLIS)
+espTicker tickerObject(callbackFunction, 1000, 0, MILLIS)
 ```
 - unified data types and smaller improvments
 
 ## Installation
 
-1. "Download":https://github.com/sstaub/Ticker/archive/master.zip the Master branch from GitHub.
-2. Unzip and modify the folder name to "Ticker"
+1. "Download":https://github.com/sstaub/espTicker/archive/master.zip the Master branch from GitHub.
+2. Unzip and modify the folder name to "espTicker"
 3. Move the modified folder on your Library folder (On your `Libraries` folder inside Sketchbooks or Arduino software).
 
 
@@ -43,32 +43,32 @@ Ticker tickerObject(callbackFunction, 1000, 0, MILLIS)
 First, include the TimerObject to your project:
 
 ```cpp
-#include "Ticker.h"
+#include "espTicker.h"
 ```
 
 Now, you can create a new object in setup():
 
 ```cpp
-Ticker tickerObject(callbackFunction, 1000); 
+espTicker tickerObject(callbackFunction, 1000); 
 tickerObject.start(); //start the ticker.
 ```
 
 In your loop(), add:
 
 ```cpp
-tickerObject.update(); //it will check the Ticker and if necessary, it will run the callback function.
+tickerObject.update(); //it will check the espTicker and if necessary, it will run the callback function.
 ```
 
 
 ## IMPORTANT
-If you use delay(), the Ticker will be ignored! You cannot use delay() command with the TimerObject. Instead of using delay, you can use the Ticker itself. For example, if you need that your loop run twice per second, just create a Ticker with 500 ms. It will have the same result that delay(500), but your code will be always state.
+If you use delay(), the espTicker will be ignored! You cannot use delay() command with the TimerObject. Instead of using delay, you can use the espTicker itself. For example, if you need that your loop run twice per second, just create a espTicker with 500 ms. It will have the same result that delay(500), but your code will be always state.
 
 ## Example
 
 Complete example. Here we created five timers, you can run it and test the result in the Serial monitor and the on board LED.
 
 ```cpp
-#include "Ticker.h"
+#include "espTicker.h"
 
 void printMessage();
 void printCounter();
@@ -79,11 +79,11 @@ void printCountUS();
 bool ledState;
 int counterUS;
 
-Ticker timer1(printMessage, 0, 1); // once, immediately 
-Ticker timer2(printCounter, 1000, 0, MILLIS); // internal resolution is milli seconds
-Ticker timer3(printCountdown, 1000, 5); // 5 times, every second
-Ticker timer4(blink, 500); // changing led every 500ms
-Ticker timer5(printCountUS, 100, 0, MICROS_MICROS); // the interval time is 100us and the internal resolution is micro seconds
+espTicker timer1(printMessage, 0, 1); // once, immediately 
+espTicker timer2(printCounter, 1000, 0, MILLIS); // internal resolution is milli seconds
+espTicker timer3(printCountdown, 1000, 5); // 5 times, every second
+espTicker timer4(blink, 500); // changing led every 500ms
+espTicker timer5(printCountUS, 100, 0, MICROS_MICROS); // the interval time is 100us and the internal resolution is micro seconds
 
 
 void setup() {
@@ -150,10 +150,10 @@ enum status_t {
 ### Constructors
 
 ```cpp
-Tickers::Tickers(fptr callback, uint32_t timer, uint16_t repeats, interval_t mode)
+espTickers::espTickers(fptr callback, uint32_t timer, uint16_t repeats, interval_t mode)
 ```
 
-Creates a Ticker object
+Creates a espTicker object
 
 - **callback** for the function name you want to call
 - **timer** set the interval time in ms or us depending from mode
@@ -163,28 +163,28 @@ Creates a Ticker object
 **Example**
 
 ```cpp
-Tickers timer(blink, 1000); // calls function blink() every second, internal resolution is micros, running endless
-Tickers timer(blink, 1000, 5); // calls function blink() every second, internal resolution is micros, only 5 repeats
-Tickers timer(blink, 1000, 0, MILLIS); // calls function blink() every second, internal resolution is millis, running endless
-Tickers timer(blink, 1000, 0, MICROS_MICROS); // calls function blink() every 1000 microsecond, internal resolution is micros, running endless
+espTickers timer(blink, 1000); // calls function blink() every second, internal resolution is micros, running endless
+espTickers timer(blink, 1000, 5); // calls function blink() every second, internal resolution is micros, only 5 repeats
+espTickers timer(blink, 1000, 0, MILLIS); // calls function blink() every second, internal resolution is millis, running endless
+espTickers timer(blink, 1000, 0, MICROS_MICROS); // calls function blink() every 1000 microsecond, internal resolution is micros, running endless
 ```
 
 ### Destructor
 
 ```cpp
-Tickers::~Tickers()
+espTickers::~espTickers()
 ```
-Destructor for Ticker object
+Destructor for espTicker object
 
 ## Class Functions
 
-### Ticker Start
+### espTicker Start
 
 ```cpp
-void Tickers::start()
+void espTickers::start()
 ```
 
-Start the Ticker. Will count the interval from the moment that you start it. If it is paused, it will restart the Ticker.
+Start the espTicker. Will count the interval from the moment that you start it. If it is paused, it will restart the espTicker.
 
 **Example**
 
@@ -192,13 +192,13 @@ Start the Ticker. Will count the interval from the moment that you start it. If 
 timer.start();
 ```
 
-### Ticker Resume
+### espTicker Resume
 
 ```cpp
-void Tickers::resume()
+void espTickers::resume()
 ```
 
-Resume the Ticker. If not started, it will start it. If paused, it will resume it. For example, in a Ticker of 5 seconds, if it was paused in 3 seconds, the resume in continue in 3 seconds. Start will set passed time to 0 and restart until get 5 seconds.
+Resume the espTicker. If not started, it will start it. If paused, it will resume it. For example, in a espTicker of 5 seconds, if it was paused in 3 seconds, the resume in continue in 3 seconds. Start will set passed time to 0 and restart until get 5 seconds.
 
 **Example**
 
@@ -206,13 +206,13 @@ Resume the Ticker. If not started, it will start it. If paused, it will resume i
 timer.resume();
 ```
 
-### Ticker Pause
+### espTicker Pause
 
 ```cpp
-void Tickers::pause()
+void espTickers::pause()
 ```
 
-Pause the Ticker, so you can resume it.
+Pause the espTicker, so you can resume it.
 
 **Example**
 
@@ -220,13 +220,13 @@ Pause the Ticker, so you can resume it.
 timer.pause();
 ```
 
-### Ticker Stop
+### espTicker Stop
 
 ```cpp
-void Tickers::stop()
+void espTickers::stop()
 ```
 
-Stop the Ticker.
+Stop the espTicker.
 
 **Example**
 
@@ -234,13 +234,13 @@ Stop the Ticker.
 timer.stop();
 ```
 
-### Ticker Update
+### espTicker Update
 
 ```cpp
-void Tickers::update()
+void espTickers::update()
 ```
 
-Must to be called in the main while() loop, it will check the Ticker, and if necessary, will run the callback.
+Must to be called in the main while() loop, it will check the espTicker, and if necessary, will run the callback.
 
 **Example**
 
@@ -250,13 +250,13 @@ while(1) {
 1.   }
 ```
 
-### Ticker set Interval Time
+### espTicker set Interval Time
 
 ```cpp
-void Tickers::interval(uint32_t timer)
+void espTickers::interval(uint32_t timer)
 ```
 
-Changes the interval time of the Ticker. Depending from the mode it can millis or micro seconds.
+Changes the interval time of the espTicker. Depending from the mode it can millis or micro seconds.
 
 - **timer** set the interval time in ms or us depending from mode
 
@@ -267,13 +267,13 @@ Changes the interval time of the Ticker. Depending from the mode it can millis o
 timer.interval(500); // new interval time
 ```
 
-### Ticker get Interval Time
+### espTicker get Interval Time
 
 ```cpp
-uint32_t Tickers::interval()
+uint32_t espTickers::interval()
 ```
 
-Get the interval time of the Ticker. Depending from the mode it can millis or micro seconds.
+Get the interval time of the espTicker. Depending from the mode it can millis or micro seconds.
 
 **Example**
 
@@ -282,13 +282,13 @@ uint32_t intervalTime;
 intervalTime = timer.interval(); // get the interval time
 ```
 
-### Ticker State
+### espTicker State
 
 ```cpp
-status_t Tickers::state()
+status_t espTickers::state()
 ```
 
-Returns the state of the Ticker.
+Returns the state of the espTicker.
 
 **Example**
 
@@ -297,10 +297,10 @@ status_t status;
 status = timer.state();
 ```
 
-### Ticker Elapsed Time
+### espTicker Elapsed Time
 
 ```cpp
-uint32_t Tickers::elapsed()
+uint32_t espTickers::elapsed()
 ```
 
 Returns the time passed since the last tick in ms or us depending on mode.
@@ -312,10 +312,10 @@ uint32_t elapse;
 elapse = timer.elapsed();
 ```
 
-### Ticker Remaining Time
+### espTicker Remaining Time
 
 ```cpp
-uint32_t Tickers::remaining()
+uint32_t espTickers::remaining()
 ```
 
 Returns the remaining time to the next tick in ms or us depending on mode.
@@ -327,10 +327,10 @@ uint32_t remain;
 remain = timer.remaining();
 ```
 
-### Ticker Counter
+### espTicker Counter
 
 ```cpp
-uint32_t Tickers::counter()
+uint32_t espTickers::counter()
 ```
 
 Get the number of executed callbacks.
